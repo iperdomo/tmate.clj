@@ -32,6 +32,7 @@ docker run --rm --name=<NAME> \
 
 ## Todo
 
+* Makefile to automate build and launch
 * Use Alpine Linux based container to reduce size
 
 ## License
