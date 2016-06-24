@@ -29,11 +29,35 @@
 (unless (package-installed-p 'zenburn-theme)
   (package-install 'zenburn-theme))
 
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+
 (load-theme 'zenburn t)
 
+;; CIDER
 (add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
+(setq cider-prompt-save-file-on-load 'always-save)
+(add-hook 'cider-repl-mode-hook #'company-mode)
+(add-hook 'cider-mode-hook #'company-mode)
+(add-hook 'cider-repl-mode-hook #'paredit-mode)
+(add-hook 'cider-mode-hook #'eldoc-mode)
 
+;; ido
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+
+;; Compojure
+(require 'clojure-mode)
+
+(define-clojure-indent
+  (defroutes 'defun)
+  (GET 2)
+  (POST 2)
+  (PUT 2)
+  (DELETE 2)
+  (HEAD 2)
+  (ANY 2)
+  (context 2))
