@@ -26,6 +26,9 @@
 (unless (package-installed-p 'paredit)
   (package-install 'paredit))
 
+(unless (package-installed-p 'company)
+  (package-install 'company))
+
 (unless (package-installed-p 'zenburn-theme)
   (package-install 'zenburn-theme))
 
