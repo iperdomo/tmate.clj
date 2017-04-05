@@ -18,21 +18,13 @@ docker build -t <TAG> .
 
 ### Running
 
-Move to your Clojure project root folder and execute
+* Copy the helper bash script script `tmate.me` in your `$PATH`
+* Set execution permission `chmod a+x tmate.me`
+* Move to your Clojure project
+* Execute: `tmate.me`
 
-````
-docker run --rm --name=<NAME> \
-  -e HOST_GID=`id -g` \
-  -e HOST_UID=`id -u` \
-  -e HOST_USER="$USER" \
-  -v ~/.m2:"/home/$USER/.m2" \
-  -v "$PWD":/project -it <TAG> /root/startup.sh
+## TODO
 
-````
-
-## Todo
-
-* Makefile to automate build and launch
 * Use Alpine Linux based container to reduce size
 
 ## License

@@ -32,4 +32,6 @@ su $HOST_USER -c "ssh-keygen -t rsa -b 4096 -P '' -f /home/$HOST_USER/.ssh/id_rs
 
 su $HOST_USER -c "echo 'export TERM=xterm-256color' >> /home/$HOST_USER/.bashrc"
 
+su $HOST_USER -c "echo 'tmate' >> /home/$HOST_USER/.bashrc"
+
 su $HOST_USER

@@ -34,3 +34,5 @@ RUN emacs --daemon
 RUN mkdir /project
 
 WORKDIR /project
+
+CMD ["/root/startup.sh"]
