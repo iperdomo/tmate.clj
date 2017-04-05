@@ -1,8 +1,7 @@
 (require 'package)
 
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-	("melpa-stable" . "http://stable.melpa.org/packages/")))
+(add-to-list 'package-archives
+             '("melpa" . "https://stable.melpa.org/packages/") t)
 
 (package-initialize)
 
@@ -29,15 +28,13 @@
 (unless (package-installed-p 'company)
   (package-install 'company))
 
-(unless (package-installed-p 'zenburn-theme)
-  (package-install 'zenburn-theme))
 
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
-(load-theme 'zenburn t)
+(load-theme 'tango-dark t)
 
 ;; CIDER
 (add-hook 'clojure-mode-hook 'paredit-mode)

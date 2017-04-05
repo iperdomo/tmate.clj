@@ -20,17 +20,16 @@ groupadd --gid $HOST_GID $HOST_USER
 useradd $HOST_USER --home /home/$HOST_USER --gid $HOST_GID --uid $HOST_UID --shell /bin/bash
 echo "$HOST_USER:pw" | chpasswd
 
-# setup minimal emacs settings
-mkdir -p /home/$HOST_USER/.emacs.d
-cp /root/init.el /home/$HOST_USER/.emacs.d/
+cp -r /root/.lein /home/$HOST_USER/
+cp -r /root/.emacs.d /home/$HOST_USER/
 
 # make sure all permissions are good to go.
 chown -R $HOST_USER:$HOST_USER /home/$HOST_USER
 
-su $HOST_USER -c "lein"
-
 su $HOST_USER -c "mkdir -p /home/$HOST_USER/.ssh"
 
 su $HOST_USER -c "ssh-keygen -t rsa -b 4096 -P '' -f /home/$HOST_USER/.ssh/id_rsa"
+
+su $HOST_USER -c "echo 'export TERM=xterm-256color' >> /home/$HOST_USER/.bashrc"
 
 su $HOST_USER

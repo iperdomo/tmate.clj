@@ -8,7 +8,7 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get update
 
 RUN apt-get install -y --no-install-recommends \
-    openjdk-8-jdk-headless emacs-nox curl tmux openssh-client && \
+    openjdk-8-jdk-headless maven emacs-nox curl tmux openssh-client && \
     apt-get clean && apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
@@ -19,9 +19,18 @@ RUN cd /usr/local/bin && curl -L https://github.com/tmate-io/tmate/releases/down
     tar xzf - --strip-components=1 && chmod a+x tmate
 
 ADD startup.sh /root/startup.sh
+
 RUN chmod +x /root/startup.sh
 
-ADD init.el /root/init.el
+RUN mkdir /root/.emacs.d
+
+ADD init.el /root/.emacs.d/init.el
+
+# Cache dependencies
+RUN lein
+
+RUN emacs --daemon
 
 RUN mkdir /project
+
 WORKDIR /project
