@@ -18,10 +18,13 @@
 
 set -eu
 
-GROUP_EXISTS=$(awk -F':' '$3 ~ /'$HOST_GID'/' /etc/group)
+GROUP_EXISTS=$(awk -F':' '$3 ~ /'$HOST_GID'/ {print $1}' /etc/group)
+HOST_GROUP="$HOST_USER"
 
 if [[ -z "$GROUP_EXISTS" ]]; then
-  groupadd --gid $HOST_GID $HOST_USER
+    groupadd --gid $HOST_GID $HOST_USER
+else
+    HOST_GROUP="$GROUP_EXISTS"
 fi
 
 useradd $HOST_USER --home /home/$HOST_USER --gid $HOST_GID --uid $HOST_UID --shell /bin/bash
@@ -31,7 +34,7 @@ echo "$HOST_USER:pw" | chpasswd
 cp -r /root/.emacs.d /home/$HOST_USER/
 
 # make sure all permissions are good to go.
-chown -R $HOST_USER:$HOST_USER /home/$HOST_USER
+chown -R $HOST_USER:$HOST_GROUP /home/$HOST_USER
 
 su $HOST_USER -c "mkdir -p /home/$HOST_USER/.ssh"
 
