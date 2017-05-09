@@ -2,12 +2,12 @@
 
 docker run \
        --rm \
-       --name=`date +%s` \
+       --name="$(date +%s)" \
        --interactive \
        --tty \
-       --env HOST_GID=`id -g` \
-       --env HOST_UID=`id -u` \
+       --env HOST_GID="$(id -g)" \
+       --env HOST_UID="$(id -u)" \
        --env HOST_USER="$USER" \
        --volume ~/.m2:"/home/$USER/.m2" \
-       --volume `pwd`:/project \
+       --volume "$(pwd)":/project \
        iperdomo/tmate.clj
