@@ -1,15 +1,15 @@
 FROM ubuntu:16.04
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends --fix-missing \
+    openjdk-8-jdk-headless maven emacs-nox curl tmux openssh-client jq locales && \
+    apt-get clean && apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends --fix-missing \
-    openjdk-8-jdk-headless maven emacs-nox curl tmux openssh-client jq && \
-    apt-get clean && apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/*
 
 ENV LEIN_ROOT=1
 ENV LEIN_HOME=/opt/lein
