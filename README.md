@@ -23,10 +23,6 @@ docker build -t <TAG> .
 * Move to your Clojure project
 * Execute: `tmate.me`
 
-## TODO
-
-* Use Alpine Linux based container to reduce size
-
 ## License
 
 Apache License 2.0

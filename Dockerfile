@@ -1,44 +1,33 @@
-FROM ubuntu:16.04
+FROM alpine:3.8
 
-RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends --fix-missing \
-    openjdk-8-jdk-headless maven emacs-nox curl tmux openssh-client jq && \
-    apt-get clean && apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/*
-
 ENV LEIN_ROOT=1
 ENV LEIN_HOME=/opt/lein
 
-RUN mkdir -p /opt/lein && \
-    cd /usr/local/bin && \
-    curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
-    chmod a+x ./lein
+COPY init.el /home/clojure/.emacs.d/init.el
+COPY startup.sh /usr/local/bin/startup.sh
+COPY bashrc /home/clojure/.bashrc
 
-RUN cd /usr/local/bin && \
-    curl -L https://github.com/tmate-io/tmate/releases/download/2.2.1/tmate-2.2.1-static-linux-amd64.tar.gz | \
-    tar xzf - --strip-components=1 && \
-    chmod a+x tmate
-
-ADD startup.sh /root/startup.sh
-
-RUN chmod +x /root/startup.sh
-
-RUN mkdir /root/.emacs.d
-
-ADD init.el /root/.emacs.d/init.el
-
-# Cache dependencies
-RUN lein
-
-RUN emacs --daemon
-
-RUN mkdir /project
+RUN set -ex; \
+    echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    apk add --no-cache \
+    bash~=4 \
+    curl~=7 \
+    emacs-nox~=26 \
+    openjdk8~=8 \
+    openssh-client~=7 \
+    openssh-keygen~=7 \
+    shadow~=4 \
+    tmate@testing~=2 && \
+    curl -L -o /usr/local/bin/lein https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
+    chmod a+x /usr/local/bin/* && \
+    lein && \
+    adduser -D -h /home/clojure -s /bin/bash clojure && \
+    chown clojure:clojure /home/clojure -R && \
+    su clojure -c 'emacs --daemon'
 
 WORKDIR /project
 
-CMD ["/root/startup.sh"]
+CMD ["/usr/local/bin/startup.sh"]
