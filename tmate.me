@@ -8,6 +8,5 @@ docker run \
        --interactive \
        --tty \
        --volume "${HOME}/.m2:/home/clojure/.m2" \
-       --volume "${HOME}/.emacs.d:/home/clojure/.emacs.d" \
        --volume "$(pwd)":/project \
        iperdomo/tmate.clj
