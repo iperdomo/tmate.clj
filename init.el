@@ -5,14 +5,6 @@
 
 (package-initialize)
 
-(setq url-http-attempt-keepalives nil)
-
-(setq inhibit-splash-screen t
-      inhibit-startup-message t
-      backup-inhibited t)
-
-(menu-bar-mode -1)
-
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -28,9 +20,8 @@
 (unless (package-installed-p 'company)
   (package-install 'company))
 
-
 (show-paren-mode 1)
-(setq show-paren-delay 0)
+(menu-bar-mode -1)
 
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
@@ -38,26 +29,18 @@
 
 ;; CIDER
 (add-hook 'clojure-mode-hook 'paredit-mode)
-(setq cider-prompt-save-file-on-load 'always-save)
 (add-hook 'cider-repl-mode-hook #'company-mode)
 (add-hook 'cider-mode-hook #'company-mode)
 (add-hook 'cider-repl-mode-hook #'paredit-mode)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
 ;; ido
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
 (ido-mode 1)
 
-;; Compojure
-(require 'clojure-mode)
-
-(define-clojure-indent
-  (defroutes 'defun)
-  (GET 2)
-  (POST 2)
-  (PUT 2)
-  (DELETE 2)
-  (HEAD 2)
-  (ANY 2)
-  (context 2))
+(setq inhibit-splash-screen t
+      inhibit-startup-message t
+      backup-inhibited t
+      show-paren-delay 0
+      ido-enable-flex-matching t
+      ido-everywhere t
+      cider-prompt-save-file-on-load 'always-save)

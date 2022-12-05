@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.17
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -13,13 +13,14 @@ COPY bashrc /home/clojure/.bashrc
 RUN set -ex; \
     echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --no-cache \
-    bash~=4 \
+    bash~=5 \
     curl~=7 \
-    emacs-nox~=26 \
-    openjdk8~=8 \
-    openssh-client~=7 \
-    openssh-keygen~=7 \
+    emacs-nox~=28 \
+    openjdk11~=11 \
+    openssh-client-common~=9 \
+    openssh-keygen~=9 \
     shadow~=4 \
+    su-exec~=0.2 \
     tmate@testing~=2 && \
     curl -L -o /usr/local/bin/lein https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
     chmod a+x /usr/local/bin/* && \
@@ -30,4 +31,4 @@ RUN set -ex; \
 
 WORKDIR /project
 
-CMD ["/usr/local/bin/startup.sh"]
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
