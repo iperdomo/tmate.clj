@@ -18,7 +18,7 @@ docker build -t <TAG> .
 
 ### Running
 
-* Copy the helper bash script script `tmate.me` in your `$PATH`
+* Copy the helper bash script script [tmate.me](https://raw.githubusercontent.com/iperdomo/tmate.clj/master/tmate.me) in your `$PATH`
 * Set execution permission `chmod a+x tmate.me`
 * Move to your Clojure project
 * Execute: `tmate.me`
